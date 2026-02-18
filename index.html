@@ -5,13 +5,175 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Thiệp Tết 2026</title>
+
   <link
     href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Be+Vietnam+Pro:wght@400;600;700;900&display=swap"
     rel="stylesheet" />
+
   <style>
     *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
-    body{height:100vh;display:flex;align-items:center;justify-content:center;background:#1a0a00 url("background-tet-2023-20-1.jpg");background-image:url("background-tet-2023-20-1.jpg");background-size:cover;background-position:center;font-family:'Be Vietnam Pro',sans-serif;overflow:hidden}
+    body{height:100vh;display:flex;align-items:center;justify-content:center;background:#1a0a00;background-image:url("background-tet-2023-20-1.jpg");background-size:cover;background-position:center;font-family:'Be Vietnam Pro',sans-serif;overflow:hidden}
     #fw{position:fixed;inset:0;z-index:1;pointer-events:none}
+
+    /* ===== INTRO OVERLAY ===== */
+    #intro {
+      position: fixed;
+      inset: 0;
+      z-index: 100;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      background: radial-gradient(ellipse at center, #2a0a00 0%, #0d0000 100%);
+      overflow: hidden;
+    }
+    #intro.hide {
+      animation: introDrop 0.8s cubic-bezier(0.76, 0, 0.24, 1) forwards;
+    }
+    @keyframes introDrop {
+      0%   { opacity: 1; transform: translateY(0); }
+      100% { opacity: 0; transform: translateY(-100%); }
+    }
+
+    /* Intro particles */
+    .intro-sparks {
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+    }
+    .spark {
+      position: absolute;
+      border-radius: 50%;
+      animation: sparkFloat linear infinite;
+    }
+    @keyframes sparkFloat {
+      0%   { transform: translateY(100vh) scale(0); opacity: 0; }
+      10%  { opacity: 1; }
+      90%  { opacity: 1; }
+      100% { transform: translateY(-20px) scale(1); opacity: 0; }
+    }
+
+    /* Countdown number */
+    #countdown-wrap {
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0;
+    }
+    .intro-label {
+      font-size: clamp(11px, 2vw, 14px);
+      letter-spacing: 6px;
+      color: #ffe066;
+      opacity: 0.7;
+      margin-bottom: 10px;
+      text-transform: uppercase;
+    }
+    #countdown-num {
+      font-family: 'Dancing Script', cursive;
+      font-size: clamp(120px, 25vw, 200px);
+      color: #fff;
+      line-height: 1;
+      text-shadow:
+        0 0 20px #ff4400,
+        0 0 60px #ff2200,
+        0 0 120px rgba(255,100,0,0.5);
+      animation: numPop 1s ease-out;
+    }
+    @keyframes numPop {
+      0%   { transform: scale(2.5); opacity: 0; }
+      40%  { transform: scale(0.9); opacity: 1; }
+      70%  { transform: scale(1.05); }
+      100% { transform: scale(1); }
+    }
+    .num-exit {
+      animation: numExit 0.4s ease-in forwards !important;
+    }
+    @keyframes numExit {
+      0%   { transform: scale(1); opacity: 1; }
+      100% { transform: scale(0.3); opacity: 0; }
+    }
+
+    /* Ring decoration */
+    .countdown-ring {
+      position: absolute;
+      width: clamp(200px, 40vw, 320px);
+      height: clamp(200px, 40vw, 320px);
+      border-radius: 50%;
+      border: 2px solid rgba(255,200,0,0.3);
+      animation: ringPulse 1s ease-out infinite;
+      pointer-events: none;
+    }
+    .countdown-ring:nth-child(2) {
+      width: clamp(240px, 48vw, 380px);
+      height: clamp(240px, 48vw, 380px);
+      border-color: rgba(255,100,0,0.2);
+      animation-delay: 0.3s;
+    }
+    @keyframes ringPulse {
+      0%   { transform: scale(0.85); opacity: 0.8; }
+      100% { transform: scale(1.15); opacity: 0; }
+    }
+
+    /* YES button */
+    #yes-btn {
+      margin-top: 30px;
+      display: none;
+      flex-direction: column;
+      align-items: center;
+      gap: 14px;
+      cursor: pointer;
+    }
+    #yes-btn.show { display: flex; }
+    .yes-label {
+      font-size: clamp(13px, 2.5vw, 16px);
+      letter-spacing: 4px;
+      color: rgba(255,255,255,0.6);
+      text-transform: uppercase;
+    }
+    .yes-button {
+      padding: 16px 60px;
+      background: linear-gradient(135deg, #ff3a00, #c80000);
+      border: 2px solid #ffd700;
+      border-radius: 50px;
+      font-family: 'Be Vietnam Pro', sans-serif;
+      font-weight: 900;
+      font-size: clamp(18px, 4vw, 26px);
+      color: #fff;
+      letter-spacing: 4px;
+      cursor: pointer;
+      position: relative;
+      overflow: hidden;
+      box-shadow: 0 0 30px rgba(255,60,0,0.6), 0 0 60px rgba(255,60,0,0.3);
+      animation: btnAppear 0.6s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+      transition: transform 0.15s ease, box-shadow 0.15s ease;
+    }
+    @keyframes btnAppear {
+      0%   { transform: scale(0); opacity: 0; }
+      100% { transform: scale(1); opacity: 1; }
+    }
+    .yes-button::before {
+      content: '';
+      position: absolute;
+      top: -50%; left: -60%;
+      width: 60%; height: 200%;
+      background: linear-gradient(105deg, transparent, rgba(255,255,255,0.25), transparent);
+      animation: shine 2.5s ease-in-out infinite;
+    }
+    @keyframes shine {
+      0%   { left: -60%; }
+      100% { left: 120%; }
+    }
+    .yes-button:hover {
+      transform: scale(1.06);
+      box-shadow: 0 0 50px rgba(255,60,0,0.8), 0 0 100px rgba(255,60,0,0.4);
+    }
+    .yes-button:active { transform: scale(0.97); }
+
+    /* Main content (hidden until intro done) */
+    #main { opacity: 0; transition: opacity 0.8s 0.3s ease; }
+    #main.show { opacity: 1; }
+
     :root{--pw:min(260px,44vw);--ph:min(400px,68vw)}
     .book{position:relative;z-index:5;display:flex;align-items:stretch;height:var(--ph)}
     .left-page{width:var(--pw);height:var(--ph);background:linear-gradient(150deg,#c8101e 0%,#8b0a12 100%);border:3px solid #ffd700;border-right:none;border-radius:14px 0 0 14px;display:flex;flex-direction:column;align-items:center;justify-content:flex-end;padding-bottom:26px;flex-shrink:0;overflow:hidden;box-shadow:-6px 10px 40px rgba(0,0,0,.5)}
@@ -39,7 +201,6 @@
     .t-zodiac{font-size:12px;letter-spacing:5px;color:#ffe066;margin:6px 0 3px}
     .t-year{font-weight:900;font-size:58px;color:#fff;line-height:1}
 
-    /* Floating blessing text */
     .float-text {
       position: fixed;
       pointer-events: none;
@@ -59,87 +220,377 @@
       80%  { opacity: 1; }
       100% { opacity: 0; transform: translateY(-90px); }
     }
+
+    /* ===== SLIDESHOW SCREEN ===== */
+    #slideshow-screen {
+      position: fixed;
+      inset: 0;
+      z-index: 90;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      flex-direction: column;
+    }
+    #slideshow-screen.active { display: flex; }
+    #slideshow-screen.fade-out {
+      animation: screenFadeOut 1s ease forwards;
+    }
+    @keyframes screenFadeOut {
+      to { opacity: 0; }
+    }
+
+    /* Text intro screen */
+    #year-review {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 3;
+      flex-direction: column;
+      gap: 16px;
+      transition: opacity 0.8s ease;
+    }
+    #year-review.hidden { opacity: 0; pointer-events: none; }
+
+    .review-line {
+      font-family: 'Be Vietnam Pro', sans-serif;
+      font-weight: 900;
+      font-size: clamp(22px, 5vw, 52px);
+      color: #fff;
+      letter-spacing: 3px;
+      opacity: 0;
+      transform: translateY(20px);
+      transition: opacity 0.8s ease, transform 0.8s ease;
+      text-align: center;
+      padding: 0 20px;
+    }
+    .review-line.accent {
+      font-family: 'Dancing Script', cursive;
+      font-size: clamp(32px, 7vw, 72px);
+      color: #ffe066;
+      text-shadow: 0 0 30px rgba(255,200,0,0.5);
+      font-weight: 700;
+    }
+    .review-line.show {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* ===== VIDEO ===== */
+    #video-wrap {
+      position: absolute;
+      inset: 0;
+      z-index: 1;
+      opacity: 0;
+      transition: opacity 1s ease;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+    }
+    #video-wrap.visible { opacity: 1; }
+
+    /* 👇 VIDEO KHÔNG FULL MÀN HÌNH */
+    #video-wrap video {
+      width: min(920px, 92vw);
+      height: min(520px, 62vh);
+      object-fit: contain;
+      border-radius: 18px;
+      border: 2px solid rgba(255, 215, 0, 0.45);
+      box-shadow: 0 0 40px rgba(255, 140, 0, 0.25), 0 0 80px rgba(255, 60, 0, 0.18);
+    }
+
+    /* Ending message */
+    #ending-msg {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-direction: column;
+      background: rgba(0,0,0,0.85);
+      z-index: 4;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 1s ease;
+      gap: 20px;
+      padding: 40px;
+    }
+    #ending-msg.show { opacity: 1; pointer-events: all; }
+    .ending-line1 {
+      font-family: 'Be Vietnam Pro', sans-serif;
+      font-size: clamp(14px, 3vw, 22px);
+      color: rgba(255,255,255,0.7);
+      letter-spacing: 2px;
+      text-align: center;
+    }
+    .ending-line2 {
+      font-family: 'Dancing Script', cursive;
+      font-size: clamp(28px, 6vw, 64px);
+      color: #ffe066;
+      text-shadow: 0 0 30px rgba(255,200,0,0.6);
+      text-align: center;
+      line-height: 1.3;
+    }
+    .ending-btn {
+      margin-top: 20px;
+      padding: 14px 48px;
+      background: linear-gradient(135deg, #c80000, #8b0a12);
+      border: 2px solid #ffd700;
+      border-radius: 50px;
+      font-family: 'Be Vietnam Pro', sans-serif;
+      font-weight: 900;
+      font-size: clamp(15px, 3vw, 20px);
+      color: #fff;
+      letter-spacing: 3px;
+      cursor: pointer;
+      box-shadow: 0 0 30px rgba(255,60,0,0.5);
+      animation: pulse 2s ease infinite;
+    }
+    @keyframes pulse {
+      0%,100% { box-shadow: 0 0 20px rgba(255,60,0,0.4); }
+      50% { box-shadow: 0 0 50px rgba(255,60,0,0.8); }
+    }
+    .ending-btn:hover { transform: scale(1.05); }
   </style>
 </head>
+
 <body>
   <audio id="bgm"><source src="tet.mp3" type="audio/mpeg"></audio>
   <canvas id="fw"></canvas>
 
-  <div class="book" id="book">
-    <div class="left-page">
-      <div class="page-content">
-        <svg class="plum-svg" viewBox="0 0 240 210" fill="none">
-          <path d="M20 205 Q50 165 85 130 Q115 100 150 72 Q175 52 205 35" stroke="#3d1400" stroke-width="5.5" stroke-linecap="round"/>
-          <path d="M85 130 Q65 112 45 100" stroke="#3d1400" stroke-width="4" stroke-linecap="round"/>
-          <path d="M120 103 Q102 85 88 74" stroke="#3d1400" stroke-width="3.5" stroke-linecap="round"/>
-          <path d="M165 68 Q178 52 190 42" stroke="#3d1400" stroke-width="3" stroke-linecap="round"/>
-          <path d="M147 74 Q155 58 162 50" stroke="#3d1400" stroke-width="2.5" stroke-linecap="round"/>
-          <g transform="translate(205,33)"><circle cx="0" cy="-10" r="8.5" fill="#ffb3c1"/><circle cx="9.6" cy="-3" r="8.5" fill="#ff8fab"/><circle cx="5.9" cy="8.1" r="8.5" fill="#ffb3c1"/><circle cx="-5.9" cy="8.1" r="8.5" fill="#ff8fab"/><circle cx="-9.6" cy="-3" r="8.5" fill="#ffccd5"/><circle cx="0" cy="0" r="5" fill="#ffe066"/><circle cx="0" cy="0" r="2.2" fill="#fff9"/></g>
-          <g transform="translate(192,40)"><circle cx="0" cy="-8" r="7" fill="#ffccd5"/><circle cx="7.9" cy="-2.5" r="7" fill="#ffb3c1"/><circle cx="4.9" cy="6.7" r="7" fill="#ffccd5"/><circle cx="-4.9" cy="6.7" r="7" fill="#ff8fab"/><circle cx="-7.9" cy="-2.5" r="7" fill="#ffb3c1"/><circle cx="0" cy="0" r="4" fill="#ffe066"/></g>
-          <g transform="translate(163,48)"><circle cx="0" cy="-7" r="6" fill="#ffb3c1"/><circle cx="6.6" cy="-2.2" r="6" fill="#ff8fab"/><circle cx="4.1" cy="5.7" r="6" fill="#ffb3c1"/><circle cx="-4.1" cy="5.7" r="6" fill="#ffccd5"/><circle cx="-6.6" cy="-2.2" r="6" fill="#ff8fab"/><circle cx="0" cy="0" r="3.5" fill="#ffe066"/></g>
-          <g transform="translate(87,72)"><circle cx="0" cy="-7.5" r="6.5" fill="#ffccd5"/><circle cx="7.1" cy="-2.3" r="6.5" fill="#ffb3c1"/><circle cx="4.4" cy="6.1" r="6.5" fill="#ffccd5"/><circle cx="-4.4" cy="6.1" r="6.5" fill="#ff8fab"/><circle cx="-7.1" cy="-2.3" r="6.5" fill="#ffb3c1"/><circle cx="0" cy="0" r="3.8" fill="#ffe066"/></g>
-          <g transform="translate(44,98)"><circle cx="0" cy="-7" r="6" fill="#ffb3c1"/><circle cx="6.6" cy="-2.2" r="6" fill="#ff8fab"/><circle cx="4.1" cy="5.7" r="6" fill="#ffb3c1"/><circle cx="-4.1" cy="5.7" r="6" fill="#ffccd5"/><circle cx="-6.6" cy="-2.2" r="6" fill="#ff8fab"/><circle cx="0" cy="0" r="3.5" fill="#ffe066"/></g>
-          <g transform="translate(120,101)"><circle cx="0" cy="-6" r="5.5" fill="#ffccd5"/><circle cx="5.7" cy="-1.9" r="5.5" fill="#ffb3c1"/><circle cx="3.5" cy="4.8" r="5.5" fill="#ffccd5"/><circle cx="-3.5" cy="4.8" r="5.5" fill="#ff8fab"/><circle cx="-5.7" cy="-1.9" r="5.5" fill="#ffccd5"/><circle cx="0" cy="0" r="3" fill="#ffe066"/></g>
-          <ellipse cx="60" cy="106" rx="3.5" ry="6" fill="#ff8fab" transform="rotate(-25,60,106)"/>
-          <ellipse cx="103" cy="88" rx="3" ry="5" fill="#ffb3c1" transform="rotate(15,103,88)"/>
-          <ellipse cx="175" cy="58" rx="2.5" ry="4.5" fill="#ffccd5" transform="rotate(-10,175,58)"/>
-          <ellipse cx="148" cy="76" rx="2.5" ry="4" fill="#ff8fab" transform="rotate(20,148,76)"/>
-          <circle cx="72" cy="92" r="1.5" fill="#ffe066" opacity="0.7"/>
-          <circle cx="135" cy="85" r="1.2" fill="#ffe066" opacity="0.6"/>
-        </svg>
-        <div class="t-xuan">Xuân</div>
-        <div class="t-zodiac">✦ Bính Ngọ ✦</div>
-        <div class="t-year">2026</div>
-      </div>
-    </div>
-    <div class="spine"></div>
-    <div class="right-page">
-      <div class="right-inner">
-        <div class="r-title">CHÚC MỪNG NĂM MỚI</div>
-        <div class="r-sub">Happy New Year 2026</div>
-        <div class="r-body">Sang năm 2026, chúc chị năm mới vui vẻ, sức khỏe dồi dào, công việc hanh thông, may mắn ngập tràn, hạnh phúc đong đầy<br><br>Cầu chúc ngàn điều tốt đẹp nhất luôn đến với bạn và gia đình bạn trong năm mới Bính Ngọ.<br><br>!!!!!MÃ ĐÁO THÀNH CÔNG!!!!!</div>
-        <div class="r-sig">— 4aesiunhan</div>
-      </div>
-    </div>
-    <div class="cover-scene">
-      <div class="cover" id="cover">
-        <div class="cover-front" onclick="toggleCard()">
-          <div class="hint-bar"><div class="hint">Nhấn để mở thiệp ✨</div></div>
-          <div class="page-content">
-            <svg class="plum-svg" viewBox="0 0 240 210" fill="none">
-              <path d="M20 205 Q50 165 85 130 Q115 100 150 72 Q175 52 205 35" stroke="#3d1400" stroke-width="5.5" stroke-linecap="round"/>
-              <path d="M85 130 Q65 112 45 100" stroke="#3d1400" stroke-width="4" stroke-linecap="round"/>
-              <path d="M120 103 Q102 85 88 74" stroke="#3d1400" stroke-width="3.5" stroke-linecap="round"/>
-              <path d="M165 68 Q178 52 190 42" stroke="#3d1400" stroke-width="3" stroke-linecap="round"/>
-              <path d="M147 74 Q155 58 162 50" stroke="#3d1400" stroke-width="2.5" stroke-linecap="round"/>
-              <g transform="translate(205,33)"><circle cx="0" cy="-10" r="8.5" fill="#ffb3c1"/><circle cx="9.6" cy="-3" r="8.5" fill="#ff8fab"/><circle cx="5.9" cy="8.1" r="8.5" fill="#ffb3c1"/><circle cx="-5.9" cy="8.1" r="8.5" fill="#ff8fab"/><circle cx="-9.6" cy="-3" r="8.5" fill="#ffccd5"/><circle cx="0" cy="0" r="5" fill="#ffe066"/><circle cx="0" cy="0" r="2.2" fill="#fff9"/></g>
-              <g transform="translate(192,40)"><circle cx="0" cy="-8" r="7" fill="#ffccd5"/><circle cx="7.9" cy="-2.5" r="7" fill="#ffb3c1"/><circle cx="4.9" cy="6.7" r="7" fill="#ffccd5"/><circle cx="-4.9" cy="6.7" r="7" fill="#ff8fab"/><circle cx="-7.9" cy="-2.5" r="7" fill="#ffb3c1"/><circle cx="0" cy="0" r="4" fill="#ffe066"/></g>
-              <g transform="translate(163,48)"><circle cx="0" cy="-7" r="6" fill="#ffb3c1"/><circle cx="6.6" cy="-2.2" r="6" fill="#ff8fab"/><circle cx="4.1" cy="5.7" r="6" fill="#ffb3c1"/><circle cx="-4.1" cy="5.7" r="6" fill="#ffccd5"/><circle cx="-6.6" cy="-2.2" r="6" fill="#ff8fab"/><circle cx="0" cy="0" r="3.5" fill="#ffe066"/></g>
-              <g transform="translate(87,72)"><circle cx="0" cy="-7.5" r="6.5" fill="#ffccd5"/><circle cx="7.1" cy="-2.3" r="6.5" fill="#ffb3c1"/><circle cx="4.4" cy="6.1" r="6.5" fill="#ffccd5"/><circle cx="-4.4" cy="6.1" r="6.5" fill="#ff8fab"/><circle cx="-7.1" cy="-2.3" r="6.5" fill="#ffb3c1"/><circle cx="0" cy="0" r="3.8" fill="#ffe066"/></g>
-              <g transform="translate(44,98)"><circle cx="0" cy="-7" r="6" fill="#ffb3c1"/><circle cx="6.6" cy="-2.2" r="6" fill="#ff8fab"/><circle cx="4.1" cy="5.7" r="6" fill="#ffb3c1"/><circle cx="-4.1" cy="5.7" r="6" fill="#ffccd5"/><circle cx="-6.6" cy="-2.2" r="6" fill="#ff8fab"/><circle cx="0" cy="0" r="3.5" fill="#ffe066"/></g>
-              <g transform="translate(120,101)"><circle cx="0" cy="-6" r="5.5" fill="#ffccd5"/><circle cx="5.7" cy="-1.9" r="5.5" fill="#ffb3c1"/><circle cx="3.5" cy="4.8" r="5.5" fill="#ffccd5"/><circle cx="-3.5" cy="4.8" r="5.5" fill="#ff8fab"/><circle cx="-5.7" cy="-1.9" r="5.5" fill="#ffccd5"/><circle cx="0" cy="0" r="3" fill="#ffe066"/></g>
-              <ellipse cx="60" cy="106" rx="3.5" ry="6" fill="#ff8fab" transform="rotate(-25,60,106)"/>
-              <ellipse cx="103" cy="88" rx="3" ry="5" fill="#ffb3c1" transform="rotate(15,103,88)"/>
-              <ellipse cx="175" cy="58" rx="2.5" ry="4.5" fill="#ffccd5" transform="rotate(-10,175,58)"/>
-              <ellipse cx="148" cy="76" rx="2.5" ry="4" fill="#ff8fab" transform="rotate(20,148,76)"/>
-              <circle cx="72" cy="92" r="1.5" fill="#ffe066" opacity="0.7"/>
-              <circle cx="135" cy="85" r="1.2" fill="#ffe066" opacity="0.6"/>
-            </svg>
-            <div class="t-xuan">Xuân</div>
-            <div class="t-zodiac">✦ Bính Ngọ ✦</div>
-            <div class="t-year">2026</div>
-          </div>
-        </div>
-        <div class="cover-back"></div>
+  <!-- INTRO OVERLAY -->
+  <div id="intro">
+    <div class="intro-sparks" id="introSparks"></div>
+    <div id="countdown-wrap">
+      <div class="countdown-ring"></div>
+      <div class="countdown-ring"></div>
+      <div class="intro-label">Happy Lunar New Year</div>
+      <div id="countdown-num"></div>
+      <div id="yes-btn">
+        <div class="yes-label">Are you ready?</div>
+        <button class="yes-button" onclick="enterSite()">✨ Yes! ✨</button>
       </div>
     </div>
   </div>
 
+  <!-- MAIN CONTENT -->
+  <div id="main">
+    <div class="book" id="book">
+      <div class="left-page">
+        <div class="page-content">
+          <svg class="plum-svg" viewBox="0 0 240 210" fill="none">
+            <path d="M20 205 Q50 165 85 130 Q115 100 150 72 Q175 52 205 35" stroke="#3d1400" stroke-width="5.5" stroke-linecap="round"/>
+            <path d="M85 130 Q65 112 45 100" stroke="#3d1400" stroke-width="4" stroke-linecap="round"/>
+            <path d="M120 103 Q102 85 88 74" stroke="#3d1400" stroke-width="3.5" stroke-linecap="round"/>
+            <path d="M165 68 Q178 52 190 42" stroke="#3d1400" stroke-width="3" stroke-linecap="round"/>
+            <path d="M147 74 Q155 58 162 50" stroke="#3d1400" stroke-width="2.5" stroke-linecap="round"/>
+            <g transform="translate(205,33)">
+              <circle cx="0" cy="-10" r="8.5" fill="#ffb3c1"/>
+              <circle cx="9.6" cy="-3" r="8.5" fill="#ff8fab"/>
+              <circle cx="5.9" cy="8.1" r="8.5" fill="#ffb3c1"/>
+              <circle cx="-5.9" cy="8.1" r="8.5" fill="#ff8fab"/>
+              <circle cx="-9.6" cy="-3" r="8.5" fill="#ffccd5"/>
+              <circle cx="0" cy="0" r="5" fill="#ffe066"/>
+              <circle cx="0" cy="0" r="2.2" fill="#fff9"/>
+            </g>
+          </svg>
+          <div class="t-xuan">Xuân</div>
+          <div class="t-zodiac">✦ Bính Ngọ ✦</div>
+          <div class="t-year">2026</div>
+        </div>
+      </div>
+      <div class="spine"></div>
+      <div class="right-page">
+        <div class="right-inner">
+          <div class="r-title">CHÚC MỪNG NĂM MỚI</div>
+          <div class="r-sub">Happy New Year 2026</div>
+          <div class="r-body">
+            Sang năm 2026, chúc chị năm mới vui vẻ, sức khỏe dồi dào, công việc hanh thông,
+            may mắn ngập tràn, hạnh phúc đong đầy<br><br>
+            Cầu chúc ngàn điều tốt đẹp nhất luôn đến với bạn và gia đình bạn trong năm mới Bính Ngọ.<br><br>
+            !!!!!MÃ ĐÁO THÀNH CÔNG!!!!!
+          </div>
+          <div class="r-sig">— 4aesiunhan</div>
+        </div>
+      </div>
+      <div class="cover-scene">
+        <div class="cover" id="cover">
+          <div class="cover-front" onclick="toggleCard()">
+            <div class="hint-bar"><div class="hint">Nhấn để mở thiệp ✨</div></div>
+            <div class="page-content">
+              <svg class="plum-svg" viewBox="0 0 240 210" fill="none">
+                <path d="M20 205 Q50 165 85 130 Q115 100 150 72 Q175 52 205 35" stroke="#3d1400" stroke-width="5.5" stroke-linecap="round"/>
+              </svg>
+              <div class="t-xuan">Xuân</div>
+              <div class="t-zodiac">✦ Bính Ngọ ✦</div>
+              <div class="t-year">2026</div>
+            </div>
+          </div>
+          <div class="cover-back"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SLIDESHOW SCREEN -->
+  <div id="slideshow-screen">
+    <!-- Step 1: Year review text -->
+    <div id="year-review">
+      <div class="review-line accent" id="rl1">Nhìn lại một năm qua...</div>
+      <div class="review-line" id="rl2">cùng gia đình mình </div>
+    </div>
+
+    <!-- Step 2: Video -->
+    <div id="video-wrap">
+      <video id="slideshowVideo" src="video.mp4" playsinline></video>
+    </div>
+
+    <!-- Step 3: Ending message -->
+    <div id="ending-msg">
+      <div class="ending-line1">Và điều tụi em muốn gửi tới chị là...</div>
+      <div class="ending-line2">✨ Thiệp Chúc Tết 2026 ✨</div>
+      <button class="ending-btn" onclick="showCard()">Mở thiệp ngay →</button>
+    </div>
+  </div>
+
   <script>
+    // ===== SLIDESHOW LOGIC (VIDEO) =====
+    function startSlideshow() {
+      const screen = document.getElementById('slideshow-screen');
+      screen.classList.add('active');
+
+      setTimeout(() => document.getElementById('rl1').classList.add('show'), 300);
+      setTimeout(() => document.getElementById('rl2').classList.add('show'), 1000);
+
+      setTimeout(() => {
+        document.getElementById('year-review').classList.add('hidden');
+
+        setTimeout(() => {
+          document.getElementById('year-review').style.display = 'none';
+          playVideo();
+        }, 800);
+
+      }, 3200);
+    }
+
+    function playVideo() {
+      const wrap = document.getElementById('video-wrap');
+      const video = document.getElementById('slideshowVideo');
+
+      wrap.classList.add('visible');
+
+      // Click để bỏ qua
+      wrap.addEventListener('click', () => {
+        showEnding();
+      }, { once: true });
+
+      // ✅ LUÔN MUTE
+      video.muted = true;
+      video.volume = 0;
+
+      // Autoplay
+      video.play().catch(() => {});
+
+      video.onended = () => {
+        showEnding();
+      };
+
+      // Nếu video dài quá thì tự chuyển (18s)
+      setTimeout(() => {
+        showEnding();
+      }, 18000);
+    }
+
+    function showEnding() {
+      const video = document.getElementById('slideshowVideo');
+      const wrap = document.getElementById('video-wrap');
+
+      // Dừng video luôn để nhẹ máy
+      video.pause();
+      wrap.classList.remove('visible');
+
+      document.getElementById('ending-msg').classList.add('show');
+    }
+
+    function showCard() {
+      const screen = document.getElementById('slideshow-screen');
+      screen.classList.add('fade-out');
+      setTimeout(() => {
+        screen.style.display = 'none';
+        document.getElementById('main').classList.add('show');
+        startFloatingTexts();
+      }, 1000);
+    }
+
+    // ===== INTRO SPARKS =====
+    const sparksContainer = document.getElementById('introSparks');
+    const sparkColors = ['#ffd700','#ff6600','#ff3300','#ffaa00','#ffe066','#ff8800'];
+    for (let i = 0; i < 35; i++) {
+      const sp = document.createElement('div');
+      sp.className = 'spark';
+      const size = 3 + Math.random() * 5;
+      sp.style.cssText = `
+        width:${size}px; height:${size}px;
+        left:${Math.random()*100}%;
+        background:${sparkColors[Math.floor(Math.random()*sparkColors.length)]};
+        opacity:${0.4 + Math.random()*0.6};
+        animation-duration:${3 + Math.random()*4}s;
+        animation-delay:${-Math.random()*5}s;
+        box-shadow: 0 0 ${size*2}px currentColor;
+      `;
+      sparksContainer.appendChild(sp);
+    }
+
+    // ===== COUNTDOWN =====
+    const numEl = document.getElementById('countdown-num');
+    const yesBtnEl = document.getElementById('yes-btn');
+    const steps = ['3','2','1','✦'];
+    let step = 0;
+
+    function showStep() {
+      if (step >= steps.length) return;
+
+      numEl.style.animation = 'none';
+      numEl.offsetHeight;
+      numEl.style.animation = '';
+      numEl.textContent = steps[step];
+
+      if (steps[step] === '✦') {
+        numEl.style.fontSize = 'clamp(60px, 12vw, 100px)';
+        numEl.style.opacity = '0.7';
+        setTimeout(() => { yesBtnEl.classList.add('show'); }, 300);
+      } else {
+        step++;
+        setTimeout(() => {
+          numEl.classList.add('num-exit');
+          setTimeout(() => {
+            numEl.classList.remove('num-exit');
+            showStep();
+          }, 380);
+        }, 900);
+      }
+    }
+
+    setTimeout(showStep, 600);
+
+    // ===== ENTER SITE =====
     const music = document.getElementById("bgm");
+
+    function enterSite() {
+      music.play();
+      const intro = document.getElementById('intro');
+      intro.classList.add('hide');
+      setTimeout(() => {
+        intro.style.display = 'none';
+        startSlideshow();
+      }, 800);
+    }
+
+    // ===== MAIN CARD =====
     function toggleCard() {
       document.getElementById('book').classList.toggle('open');
-      music.play();
     }
 
     // ===== FIREWORKS =====
@@ -184,8 +635,6 @@
 
     function loop() {
       ctx.clearRect(0,0,canvas.width,canvas.height);
-
-
       for (let i = rockets.length-1; i >= 0; i--) {
         const r = rockets[i];
         r.trail.push({x:r.x, y:r.y});
@@ -203,7 +652,6 @@
           rockets.splice(i, 1);
         }
       }
-
       for (let i = particles.length-1; i >= 0; i--) {
         const p = particles[i];
         p.x+=p.vx; p.y+=p.vy; p.vy+=p.gravity; p.vx*=0.98; p.life--;
@@ -222,7 +670,6 @@
         if (p.life<=0) particles.splice(i,1);
       }
       ctx.globalAlpha = 1;
-
       if (Math.random()<0.025) launchRocket();
       if (Math.random()<0.008) {
         setTimeout(launchRocket, 200+Math.random()*300);
@@ -236,9 +683,11 @@
     const blessings = [
       'CHÚC MỪNG NĂM MỚI','CHÚC CHO CHỊ VY','TÀI LỘC DỒI DÀO',
       'VẠN SỰ NHƯ Ý','SỨC KHỎE DỒI DÀO',
-      ,'AN KHANG THỊNH VƯỢNG',
+      'AN KHANG THỊNH VƯỢNG',
       'BÌNH AN MAY MẮN','CẢM ƠN CHỊ', 'VÌ ĐÃ ĐỒNG HÀNH', 'CÙNG TỤI EM <3'
     ];
+    let blessingIndex = 0;
+    let floatingStarted = false;
 
     function getCardBounds() {
       const book = document.getElementById('book');
@@ -249,8 +698,6 @@
       const cx = window.innerWidth/2, cy = window.innerHeight/2;
       return { left:cx-totalW/2, right:cx+totalW/2, top:cy-ph/2, bottom:cy+ph/2, ph };
     }
-
-    let blessingIndex = 0;
 
     function spawnFloatingText() {
       const bounds = getCardBounds();
@@ -266,7 +713,6 @@
         x = minX + Math.random() * (window.innerWidth - minX - 60);
       }
       const y = bounds.top + 20 + Math.random() * (bounds.ph - 40);
-
       const el = document.createElement('div');
       el.className = 'float-text';
       el.textContent = blessings[blessingIndex % blessings.length];
@@ -277,11 +723,15 @@
       setTimeout(() => el.remove(), 4000);
     }
 
-    function scheduleNext() {
-      spawnFloatingText();
-      setTimeout(scheduleNext, 1800 + Math.random() * 2200);
+    function startFloatingTexts() {
+      if (floatingStarted) return;
+      floatingStarted = true;
+      function scheduleNext() {
+        spawnFloatingText();
+        setTimeout(scheduleNext, 1800 + Math.random() * 2200);
+      }
+      setTimeout(scheduleNext, 1500);
     }
-    setTimeout(scheduleNext, 1500);
   </script>
 </body>
 </html>
